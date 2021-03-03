@@ -1,5 +1,6 @@
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
+import { computed } from '@ember/object';
 import { next } from '@ember/runloop';
 import octanize from 'dummy/helpers/octanize';
 
