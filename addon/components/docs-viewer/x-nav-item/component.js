@@ -1,6 +1,7 @@
 import { inject as service } from '@ember/service';
 import Component from '@ember/component';
 import { next } from '@ember/runloop';
+import octanize from 'dummy/helpers/octanize';
 
 import layout from './template';
 
@@ -21,7 +22,12 @@ export default Component.extend({
     next(() => {
       this.get('docsRoutes.items').addObject(this);
     });
-  }
+  },
+
+  formattedLabel: computed(function() {
+    const needsTransform = this.model?.startsWith?.('components');
+    return needsTransform ? octanize(this.label) : this.label;
+  })
 }).reopenClass({
 
   positionalParams: ['label', 'route', 'model']

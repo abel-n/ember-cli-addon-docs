@@ -3,6 +3,16 @@ import { A } from '@ember/array';
 import Service, { inject as service } from '@ember/service';
 import { hrefTo } from 'ember-href-to/helpers/href-to';
 import { assert } from '@ember/debug';
+import octanize from 'ember-cli-addon-docs/helpers/octanize';
+
+const octanizeRouteInfo = (routeInfo) => {
+  const needsTransform = routeInfo?.route?.[1]?.startsWith?.('components');
+
+  return needsTransform ? {
+    route: routeInfo.route,
+    label: octanize(routeInfo.label)
+  } : routeInfo;
+};
 
 export default Service.extend({
   router: service('-routing'),
@@ -58,10 +68,10 @@ export default Service.extend({
       let nextRouteIndex = currentIndex + 1;
       let route = this.routes[(nextRouteIndex)];
 
-      return {
+      return octanizeRouteInfo({
         route,
         label: this.items.objectAt(nextRouteIndex).get('label')
-      };
+      });
     }
   }),
 
@@ -72,10 +82,10 @@ export default Service.extend({
       let previousRouteIndex = currentIndex - 1;
       let route = this.routes[(previousRouteIndex)];
 
-      return {
+      return octanizeRouteInfo({
         route,
         label: this.items.objectAt(previousRouteIndex).get('label')
-      };
+      });
     }
   })
 
